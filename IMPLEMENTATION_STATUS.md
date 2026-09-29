@@ -14,8 +14,8 @@
 
 ## Testes realizados
 - Desktop: navegação pelas 10 etapas, salvamento, validação e download OK.
-- Mobile: testado em viewport estreito; layout responsivo OK.
-- Envio: resposta de teste chegou à planilha.
+- Mobile: envio e layout testados no celular real; respostas chegaram corretamente.
+- Produção: formulário enviado via GitHub Pages → Apps Script → Google Sheets com sucesso.
 - Sheets: aba `Respostas` criada com colunas resumidas e JSON completo.
 - JSON: download do payload completo funcionou.
 - localStorage: respostas preservadas após refresh.
@@ -32,9 +32,7 @@
 - Redirecionamento padrão do Apps Script exigiu teste no navegador real; o `fetch` do navegador seguiu o redirect corretamente.
 
 ## Pendências
-- Criar repositório `tmg-briefing` no GitHub.
-- Publicar via GitHub Pages.
-- Teste final em produção com envio real pelo link público.
+Nenhuma. O briefing está online e operacional.
 
 ## Próximos passos sugeridos
 - Enviar o link público ao cliente.

@@ -18,12 +18,10 @@ O formulário público é hospedado no GitHub Pages. As respostas são enviadas 
 
 | Recurso | URL / localização |
 |---|---|
-| Site público (GitHub Pages) | `https://SEU-USUARIO.github.io/tmg-briefing/` |
-| Repositório GitHub | `https://github.com/SEU-USUARIO/tmg-briefing` |
-| Apps Script Web App | URL terminada em `/exec` configurada em `index.html` |
+| Site público (GitHub Pages) | `https://randolfoai.github.io/tmg-briefing/` |
+| Repositório GitHub | `https://github.com/Randolfoai/tmg-briefing` |
+| Apps Script Web App | `https://script.google.com/macros/s/AKfycbwhiebFWbuKJ0ryWqxfFcg3umv4cJkBU94RaWDTVjSbijLlbgS1GK-Z3BLYM-1Ru4ih0Q/exec` |
 | Planilha Google | Nome: **Briefing - Tocantins Mil Graus** — localizada na conta `randolfoai@gmail.com` |
-
-> Substitua `SEU-USUARIO` pelo nome de usuário real do GitHub.
 
 ## Planilha
 

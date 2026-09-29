@@ -8,11 +8,9 @@
 - Planilha Google privada criada e recebendo respostas.
 
 ## URLs
-- Site: `https://SEU-USUARIO.github.io/tmg-briefing/`
-- GitHub: `https://github.com/SEU-USUARIO/tmg-briefing`
+- Site: `https://randolfoai.github.io/tmg-briefing/`
+- GitHub: `https://github.com/Randolfoai/tmg-briefing`
 - Endpoint: `https://script.google.com/macros/s/AKfycbwhiebFWbuKJ0ryWqxfFcg3umv4cJkBU94RaWDTVjSbijLlbgS1GK-Z3BLYM-1Ru4ih0Q/exec`
-
-> Substitua `SEU-USUARIO` pelo nome de usuário real após a criação do repositório.
 
 ## Testes realizados
 - Desktop: navegação pelas 10 etapas, salvamento, validação e download OK.

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Briefing inteligente do novo Tocantins Mil Graus." />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Briefing Inteligente — Tocantins Mil Graus</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --panel: #ffffff;
+      --ink: #111827;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --accent: #0f172a;
+      --accent-2: #2563eb;
+      --soft: #eef4ff;
+      --danger: #b42318;
+      --ok: #067647;
+      --shadow: 0 18px 50px rgba(15, 23, 42, .10);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(37,99,235,.10), transparent 28rem),
+        var(--bg);
+      line-height: 1.55;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    .shell { max-width: 1040px; margin: 0 auto; padding: 22px; }
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 18px; padding: 8px 2px 20px;
+    }
+    .brand { display: flex; gap: 12px; align-items: center; min-width: 0; }
+    .mark {
+      width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center;
+      background: var(--accent); color: white; font-weight: 800; letter-spacing: -.03em;
+      box-shadow: var(--shadow); flex: 0 0 auto;
+    }
+    .brand b { display: block; font-size: .98rem; }
+    .brand span { color: var(--muted); font-size: .82rem; }
+    .draft-state { color: var(--muted); font-size: .84rem; text-align: right; }
+    .hero, .card {
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(228,231,236,.9);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+    }
+    .hero { padding: 34px; margin-bottom: 18px; }
+    .eyebrow { color: var(--accent-2); font-weight: 750; font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; }
+    h1 { margin: 8px 0 12px; max-width: 760px; font-size: clamp(2rem, 6vw, 3.55rem); line-height: 1.02; letter-spacing: -.055em; }
+    .lead { max-width: 760px; color: var(--muted); font-size: 1.04rem; margin: 0; }
+    .notice {
+      margin-top: 22px; border: 1px solid #d9e4ff; background: #f6f8ff;
+      border-radius: 15px; padding: 14px 16px; color: #344054; font-size: .9rem;
+    }
+    .progress-wrap { margin: 18px 0; }
+    .progress-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: .84rem; margin-bottom: 7px; }
+    .progress { height: 9px; border-radius: 999px; overflow: hidden; background: #e8edf5; }
+    .bar { height: 100%; width: 0; background: linear-gradient(90deg, #0f172a, #2563eb); transition: width .25s ease; }
+    .card { padding: 30px; min-height: 520px; }
+    .section-kicker { color: var(--accent-2); font-weight: 750; font-size: .84rem; margin-bottom: 6px; }
+    h2 { margin: 0 0 6px; font-size: clamp(1.55rem, 4vw, 2.2rem); letter-spacing: -.035em; }
+    .section-desc { margin: 0 0 26px; color: var(--muted); }
+    .q { padding: 22px 0; border-top: 1px solid var(--line); }
+    .q:first-of-type { border-top: 0; padding-top: 0; }
+    .q label.title { display: block; font-weight: 720; margin-bottom: 8px; }
+    .hint { display: block; color: var(--muted); font-size: .86rem; margin: -2px 0 10px; }
+    textarea, input[type="text"], input[type="email"], select {
+      width: 100%; border: 1px solid #cfd6e3; border-radius: 13px;
+      background: #fff; color: var(--ink); padding: 13px 14px; outline: none;
+      transition: border .15s, box-shadow .15s;
+    }
+    textarea { min-height: 112px; resize: vertical; }
+    textarea:focus, input:focus, select:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+    }
+    .choices { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+    .choice {
+      display: flex; gap: 10px; align-items: flex-start; padding: 12px 13px;
+      border: 1px solid var(--line); border-radius: 13px; background: #fff;
+    }
+    .choice input { margin-top: 4px; accent-color: var(--accent-2); }
+    .nav {
+      display: flex; justify-content: space-between; gap: 12px; margin-top: 18px;
+      position: sticky; bottom: 12px; z-index: 20;
+    }
+    .btn {
+      border: 0; border-radius: 14px; padding: 13px 18px; font-weight: 720;
+      box-shadow: 0 8px 20px rgba(15,23,42,.08);
+    }
+    .btn.primary { background: var(--accent); color: #fff; }
+    .btn.secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+    .btn.blue { background: var(--accent-2); color: #fff; }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+    .btn.spinning { position: relative; color: transparent; }
+    .btn.spinning::after {
+      content: ""; position: absolute; left: 50%; top: 50%;
+      width: 18px; height: 18px; margin: -9px 0 0 -9px;
+      border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;
+      border-radius: 50%; animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .final-box { display: grid; gap: 12px; }
+    .summary {
+      padding: 16px; border-radius: 15px; background: #f8fafc; border: 1px solid var(--line);
+      color: #344054; font-size: .9rem;
+    }
+    .status { margin-top: 12px; min-height: 28px; font-size: .92rem; font-weight: 650; }
+    .status.ok { color: var(--ok); }
+    .status.err { color: var(--danger); }
+    .small { color: var(--muted); font-size: .82rem; }
+    .privacy {
+      color: var(--muted); font-size: .82rem; text-align: center;
+      padding: 12px 4px 0;
+    }
+    .footer { color: var(--muted); font-size: .78rem; padding: 22px 4px 50px; text-align: center; }
+    .hidden { display: none !important; }
+    textarea:focus-visible, input:focus-visible, select:focus-visible, .choice:focus-within {
+      outline: 2px solid var(--accent-2); outline-offset: 2px;
+    }
+    @media (max-width: 720px) {
+      .shell { padding: 12px; }
+      .hero, .card { border-radius: 18px; }
+      .hero { padding: 24px 20px; }
+      .card { padding: 22px 18px; }
+      .choices { grid-template-columns: 1fr; }
+      .topbar { align-items: flex-start; }
+      .draft-state { max-width: 145px; }
+      .nav { bottom: 8px; }
+      .btn { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="topbar">
+      <div class="brand">
+        <div class="mark">TMG</div>
+        <div><b>Tocantins Mil Graus</b><span>Briefing inteligente do novo portal</span></div>
+      </div>
+      <div class="draft-state" id="draftState">Rascunho salvo automaticamente</div>
+    </div>
+
+    <section class="hero" id="intro">
+      <div class="eyebrow">Diagnóstico de produto</div>
+      <h1>Ajude a desenhar a próxima geração do Tocantins Mil Graus.</h1>
+      <p class="lead">
+        Não é uma prova e não exige conhecimento técnico. Queremos entender como você trabalha hoje,
+        o que toma seu tempo, o que deve continuar humano e onde tecnologia e IA realmente podem ajudar.
+      </p>
+      <div class="notice">
+        <strong>Como funciona:</strong> são 10 etapas curtas. Suas respostas ficam salvas neste navegador enquanto você preenche.
+        Você pode pular o que ainda não souber. Ao final, o briefing é enviado para a equipe do projeto.
+      </div>
+    </section>
+
+    <div class="progress-wrap">
+      <div class="progress-meta"><span id="stepLabel">Etapa 1 de 10</span><span id="percent">10%</span></div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+    </div>
+
+    <section class="card">
+      <div id="sectionRoot"></div>
+      <div class="nav">
+        <button class="btn secondary" id="backBtn" type="button">Voltar</button>
+        <button class="btn primary" id="nextBtn" type="button">Continuar</button>
+      </div>
+    </section>
+
+    <div class="privacy">Respostas usadas exclusivamente para planejamento e desenvolvimento do projeto Tocantins Mil Graus.</div>
+    <div class="footer">Briefing do projeto Tocantins Mil Graus</div>
+  </main>
+
+<script>
+/*
+  CONFIGURAÇÃO:
+  1) Faça o deploy do Code.gs como Web App no Google Apps Script.
+  2) Cole abaixo a URL final terminada em /exec.
+*/
+const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbwhiebFWbuKJ0ryWqxfFcg3umv4cJkBU94RaWDTVjSbijLlbgS1GK-Z3BLYM-1Ru4ih0Q/exec";
+
+const sections = [
+  {
+    title: "Você e o projeto",
+    desc: "Começamos pelo essencial: como o Tocantins Mil Graus existe hoje e para onde deve caminhar.",
+    questions: [
+      {id:"nome", label:"Seu nome", type:"text", required:true},
+      {id:"papel", label:"Qual é sua função hoje no Tocantins Mil Graus?", type:"text", required:true, hint:"Ex.: proprietário, editor, apresentador, social media, tudo ao mesmo tempo."},
+      {id:"visao", label:"Em uma frase, o que é o Tocantins Mil Graus hoje e o que você gostaria que ele se tornasse nos próximos dois anos?", type:"textarea", required:true},
+      {id:"regioes", label:"Quais cidades, regiões ou públicos são prioritários?", type:"textarea", hint:"Ex.: Palmas, Gurupi, Araguaína, todo o Tocantins, Norte do Brasil."},
+      {id:"identidade", label:"O que faz o Tocantins Mil Graus ser diferente e não pode se perder nessa nova fase?", type:"textarea"}
+    ]
+  },
+  {
+    title: "Público e conteúdo",
+    desc: "Queremos entender o que sua audiência procura e quais formatos realmente funcionam.",
+    questions: [
+      {id:"publico", label:"Como você descreveria seu público hoje?", type:"textarea"},
+      {id:"temas", label:"Quais assuntos mais interessam ao seu público?", type:"textarea", hint:"Política, cidade, esporte, polícia, humor, eventos, serviço, economia, cultura etc."},
+      {id:"formatos", label:"Quais formatos costumam funcionar melhor?", type:"check", options:["Notícia curta","Reportagem","Vídeo/Reel","Carrossel","Story","Humor/meme","Cobertura ao vivo","Entrevista","Utilidade pública","Outro"]},
+      {id:"melhores_posts", label:"Que tipo de publicação costuma gerar mais alcance, compartilhamento ou comentários?", type:"textarea"},
+      {id:"referencias", label:"Cite portais, perfis ou criadores que você admira e explique rapidamente por quê.", type:"textarea"}
+    ]
+  },
+  {
+    title: "Como a notícia nasce hoje",
+    desc: "Aqui queremos descobrir os gargalos da operação real.",
+    questions: [
+      {id:"fluxo", label:"Descreva como uma notícia nasce hoje, desde a descoberta do fato até a publicação.", type:"textarea", required:true},
+      {id:"equipe", label:"Quem participa do trabalho hoje e o que cada pessoa faz?", type:"textarea"},
+      {id:"tarefas_pesadas", label:"Quais tarefas mais consomem seu tempo?", type:"textarea"},
+      {id:"repetitivas", label:"Quais tarefas são repetitivas e você gostaria de automatizar primeiro?", type:"textarea", required:true},
+      {id:"erros_atrasos", label:"Em quais etapas acontecem mais erros, esquecimentos ou atrasos?", type:"textarea"}
+    ]
+  },
+  {
+    title: "Radar e fontes",
+    desc: "O futuro sistema poderá funcionar como um radar editorial, mas precisamos conhecer suas fontes.",
+    questions: [
+      {id:"fontes_sites", label:"Quais sites ou portais você consulta frequentemente?", type:"textarea"},
+      {id:"fontes_perfis", label:"Quais perfis, órgãos, empresas, políticos, clubes, artistas ou entidades você acompanha?", type:"textarea"},
+      {id:"palavras", label:"Quais nomes, assuntos, cidades, palavras ou temas você gostaria de monitorar automaticamente?", type:"textarea"},
+      {id:"hashtags", label:"Existem hashtags importantes para acompanhar?", type:"textarea"},
+      {id:"releases", label:"Você recebe releases ou sugestões de pauta por e-mail ou WhatsApp? Como lida com eles hoje?", type:"textarea"},
+      {id:"alertas", label:"Quando o sistema encontrar algo importante, como você prefere ser avisado?", type:"check", options:["Painel admin","WhatsApp","E-mail","Relatório de manhã","Relatório no fim do dia","Só alertas urgentes"]}
+    ]
+  },
+  {
+    title: "Novo portal público",
+    desc: "Agora pensamos na experiência do leitor no celular, tablet e desktop.",
+    questions: [
+      {id:"home", label:"O que deve aparecer primeiro quando alguém entra no site?", type:"textarea"},
+      {id:"editorias", label:"Quais editorias ou áreas precisam existir?", type:"textarea"},
+      {id:"recursos_publico", label:"Quais recursos interessam ao público?", type:"check", options:["Busca forte","Página por cidade","Vídeos/Reels","Galerias","Enquetes","Comentários","Notificações","Newsletter","Cobertura ao vivo","Agenda de eventos","Classificados","Publicidade","Modo escuro"]},
+      {id:"busca_ia", label:"Você gostaria que o leitor pudesse perguntar ao site coisas como “vocês já publicaram algo sobre esse assunto?”", type:"radio", options:["Sim","Talvez, quero entender melhor","Não"]},
+      {id:"site_nao", label:"O que você NÃO quer que o novo site pareça ou faça?", type:"textarea"}
+    ]
+  },
+  {
+    title: "Painel administrativo",
+    desc: "O painel deve funcionar como o cockpit da operação.",
+    questions: [
+      {id:"dashboard", label:"O que você gostaria de enxergar imediatamente ao abrir o painel?", type:"textarea"},
+      {id:"papeis", label:"Quem terá acesso ao painel?", type:"check", options:["Proprietário","Editor","Redator","Social media","Comercial","Fotógrafo/Vídeo","Outro"]},
+      {id:"midia", label:"O que você gostaria de fazer com fotos e vídeos dentro do painel?", type:"check", options:["Cortar","Redimensionar","Criar 16:9","Criar 4:5","Criar 1:1","Criar 9:16","Marca d'água","Biblioteca pesquisável","Organizar por evento/cidade","Crédito e direitos de uso"]},
+      {id:"historico", label:"É importante ter histórico de alterações, versões anteriores e saber quem mudou cada matéria?", type:"radio", options:["Sim","Seria útil","Não é prioridade"]},
+      {id:"mobile_admin", label:"Quais ações você mais precisa conseguir fazer rapidamente pelo celular?", type:"textarea"}
+    ]
+  },
+  {
+    title: "Instagram e redes sociais",
+    desc: "Queremos reduzir retrabalho entre portal e redes sem transformar tudo em conteúdo automático.",
+    questions: [
+      {id:"conta_profissional", label:"A conta do Instagram está configurada como profissional (Business ou Creator)?", type:"radio", options:["Sim","Não","Não sei"]},
+      {id:"redes", label:"Quais redes além do Instagram são importantes?", type:"check", options:["Facebook","YouTube","TikTok","X/Twitter","Threads","WhatsApp","Telegram","Nenhuma outra","Outro"]},
+      {id:"adaptacao", label:"Hoje você adapta o conteúdo para cada rede ou normalmente replica a mesma publicação?", type:"textarea"},
+      {id:"geracao_social", label:"O que a IA poderia preparar a partir de uma matéria?", type:"check", options:["Legenda","Carrossel","Chamada curta","Roteiro de Reel","Stories","Títulos alternativos","Hashtags","Resumo em vídeo"]},
+      {id:"metricas", label:"Quais números realmente importam para você nas redes?", type:"textarea", hint:"Ex.: alcance, seguidores, compartilhamentos, directs, cliques no site, comentários."}
+    ]
+  },
+  {
+    title: "WhatsApp como secretária e controle remoto",
+    desc: "Queremos saber quais comandos fariam diferença no seu dia.",
+    questions: [
+      {id:"whatsapp_business", label:"Você aceita usar/configurar um número de WhatsApp Business para a integração oficial?", type:"radio", options:["Sim","Talvez","Prefiro usar o número atual","Quero entender melhor"]},
+      {id:"comandos", label:"Escreva exemplos de coisas que gostaria de pedir para a assistente pelo WhatsApp.", type:"textarea", required:true, hint:"Ex.: O que há de novo? Faça o relatório do dia. Prepare um post. O perfil X publicou algo? O que tenho amanhã?"},
+      {id:"audio_foto", label:"Você gostaria de enviar áudio ou foto e transformar isso em tarefa, pauta ou postagem?", type:"radio", options:["Sim","Talvez","Não"]},
+      {id:"aprovar_whats", label:"Gostaria de poder responder “APROVAR” no WhatsApp para liberar uma matéria ou postagem preparada pelo sistema?", type:"radio", options:["Sim","Talvez","Não"]},
+      {id:"relatorios", label:"Que relatórios gostaria de receber automaticamente?", type:"check", options:["Resumo da manhã","Resumo do fim do dia","Assuntos crescendo","Posts de melhor desempenho","Matérias aguardando aprovação","Agenda do dia","Alertas urgentes"]}
+    ]
+  },
+  {
+    title: "Autonomia, segurança e responsabilidade",
+    desc: "A IA pode trabalhar muito, mas precisamos definir claramente o que exige decisão humana.",
+    questions: [
+      {id:"ia_sozinha", label:"O que a IA poderia fazer sozinha sem pedir sua autorização?", type:"textarea"},
+      {id:"ia_aprovacao", label:"O que SEMPRE deveria passar por sua aprovação antes de executar ou publicar?", type:"textarea", required:true},
+      {id:"temas_sensiveis", label:"Quais assuntos considera especialmente sensíveis?", type:"textarea", hint:"Ex.: acusações, crianças, acidentes, política, segurança, dados pessoais."},
+      {id:"auto_publicar", label:"Você aceitaria publicação automática em algum tipo de conteúdo?", type:"radio", options:["Sim, em casos bem definidos","Talvez no futuro","Não, toda publicação deve ter aprovação humana"]},
+      {id:"divergencia", label:"Se diferentes fontes trouxerem informações conflitantes, o sistema deveria bloquear o rascunho e avisar?", type:"radio", options:["Sim","Avisar, mas não bloquear","Depende do assunto"]}
+    ]
+  },
+  {
+    title: "Negócio, design e prioridades",
+    desc: "Fechamos com o que define sucesso e o que deve entrar primeiro.",
+    questions: [
+      {id:"monetizacao", label:"Como o Tocantins Mil Graus ganha dinheiro hoje e quais novas receitas gostaria de explorar?", type:"textarea"},
+      {id:"publicidade", label:"Você gostaria de controlar anunciantes, campanhas, vencimentos e relatórios no próprio painel?", type:"radio", options:["Sim","Talvez","Não é prioridade"]},
+      {id:"design", label:"Como gostaria que o novo portal parecesse?", type:"check", options:["Moderno e minimalista","Visual e baseado em cards","Jornalístico clássico","Parecido com aplicativo","Muito rápido e simples","Premium/editorial","Ainda não sei"]},
+      {id:"top3", label:"Se o novo sistema pudesse resolver apenas TRÊS problemas nos primeiros 30 dias, quais seriam?", type:"textarea", required:true},
+      {id:"impressionante", label:"Qual função seria “uau”, mesmo que não seja essencial para a primeira versão?", type:"textarea"},
+      {id:"sucesso", label:"O que faria você considerar esse projeto um sucesso seis meses depois de lançado?", type:"textarea", required:true},
+      {id:"site_atual", label:"Qual é o endereço do site atual?", type:"text"},
+      {id:"observacoes", label:"Há algo importante que não perguntamos e você gostaria de acrescentar?", type:"textarea"}
+    ]
+  }
+];
+
+const STORAGE_KEY = "tmg-briefing-v1";
+let state = { step: 0, answers: {}, startedAt: new Date().toISOString() };
+let isSubmitting = false;
+
+const root = document.getElementById("sectionRoot");
+const backBtn = document.getElementById("backBtn");
+const nextBtn = document.getElementById("nextBtn");
+const bar = document.getElementById("bar");
+const percent = document.getElementById("percent");
+const stepLabel = document.getElementById("stepLabel");
+const draftState = document.getElementById("draftState");
+
+function loadDraft() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (saved && saved.answers) state = saved;
+  } catch(e) {}
+}
+
+function saveDraft() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  draftState.textContent = "Rascunho salvo automaticamente";
+  setTimeout(() => draftState.textContent = "Você pode continuar depois neste aparelho", 900);
+}
+
+function escapeHtml(str="") {
+  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+function fieldHTML(q) {
+  const v = state.answers[q.id] ?? (q.type === "check" ? [] : "");
+  if (q.type === "textarea") {
+    return `<textarea data-id="${q.id}" ${q.required ? "data-required='1'" : ""} placeholder="Escreva com suas palavras...">${escapeHtml(v)}</textarea>`;
+  }
+  if (q.type === "text" || q.type === "email") {
+    return `<input type="${q.type}" data-id="${q.id}" ${q.required ? "data-required='1'" : ""} value="${escapeHtml(v)}" placeholder="Digite aqui..." />`;
+  }
+  if (q.type === "radio") {
+    return `<div class="choices">${q.options.map(opt => `
+      <label class="choice"><input type="radio" name="${q.id}" data-id="${q.id}" value="${escapeHtml(opt)}" ${v===opt?"checked":""}><span>${escapeHtml(opt)}</span></label>
+    `).join("")}</div>`;
+  }
+  if (q.type === "check") {
+    const arr = Array.isArray(v) ? v : [];
+    return `<div class="choices">${q.options.map(opt => `
+      <label class="choice"><input type="checkbox" data-id="${q.id}" value="${escapeHtml(opt)}" ${arr.includes(opt)?"checked":""}><span>${escapeHtml(opt)}</span></label>
+    `).join("")}</div>`;
+  }
+  return "";
+}
+
+function render() {
+  const s = sections[state.step];
+  root.innerHTML = `
+    <div class="section-kicker">Etapa ${state.step + 1}</div>
+    <h2>${escapeHtml(s.title)}</h2>
+    <p class="section-desc">${escapeHtml(s.desc)}</p>
+    ${s.questions.map((q, i) => `
+      <div class="q">
+        <label class="title">${escapeHtml(q.label)} ${q.required ? '<span style="color:#b42318">*</span>' : ''}</label>
+        ${q.hint ? `<span class="hint">${escapeHtml(q.hint)}</span>` : ""}
+        ${fieldHTML(q)}
+      </div>
+    `).join("")}
+    ${state.step === sections.length-1 ? `
+      <div class="final-box">
+        <div class="summary"><strong>Quase pronto.</strong> Revise esta etapa e clique em <b>Enviar briefing</b>. Você também poderá baixar uma cópia em JSON como segurança.</div>
+        <button class="btn secondary" type="button" id="downloadBtn">Baixar cópia JSON</button>
+        <div class="status" id="status"></div>
+      </div>` : ""}
+  `;
+
+  bindFields();
+  if (state.step === sections.length-1) {
+    document.getElementById("downloadBtn").addEventListener("click", downloadJSON);
+  }
+
+  const p = Math.round(((state.step + 1) / sections.length) * 100);
+  bar.style.width = p + "%";
+  percent.textContent = p + "%";
+  stepLabel.textContent = `Etapa ${state.step + 1} de ${sections.length}`;
+  backBtn.disabled = state.step === 0;
+  nextBtn.textContent = state.step === sections.length - 1 ? "Enviar briefing" : "Continuar";
+  nextBtn.className = state.step === sections.length - 1 ? "btn blue" : "btn primary";
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function bindFields() {
+  root.querySelectorAll("[data-id]").forEach(el => {
+    const eventName = (el.type === "radio" || el.type === "checkbox") ? "change" : "input";
+    el.addEventListener(eventName, () => {
+      const id = el.dataset.id;
+      if (el.type === "checkbox") {
+        state.answers[id] = [...root.querySelectorAll(`input[type="checkbox"][data-id="${id}"]:checked`)].map(x => x.value);
+      } else if (el.type === "radio") {
+        const checked = root.querySelector(`input[type="radio"][data-id="${id}"]:checked`);
+        state.answers[id] = checked ? checked.value : "";
+      } else {
+        state.answers[id] = el.value;
+      }
+      saveDraft();
+    });
+  });
+}
+
+function validateCurrent() {
+  const missing = [];
+  sections[state.step].questions.forEach(q => {
+    if (!q.required) return;
+    const v = state.answers[q.id];
+    if (!v || (Array.isArray(v) && v.length === 0) || (typeof v === "string" && !v.trim())) missing.push(q.label);
+  });
+  if (missing.length) {
+    alert("Antes de continuar, responda:\n\n• " + missing.join("\n• "));
+    return false;
+  }
+  return true;
+}
+
+function buildPayload() {
+  return {
+    formVersion: "1.0",
+    project: "Tocantins Mil Graus",
+    startedAt: state.startedAt,
+    submittedAt: new Date().toISOString(),
+    userAgent: navigator.userAgent,
+    answers: state.answers
+  };
+}
+
+function downloadJSON() {
+  const data = JSON.stringify(buildPayload(), null, 2);
+  const blob = new Blob([data], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "briefing-tocantins-mil-graus.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function setSubmitting(value) {
+  isSubmitting = value;
+  nextBtn.disabled = value;
+  backBtn.disabled = value || state.step === 0;
+  nextBtn.classList.toggle("spinning", value);
+  nextBtn.textContent = value ? "Enviando..." : "Enviar briefing";
+}
+
+async function submitBriefing() {
+  const status = document.getElementById("status");
+  if (!ENDPOINT_URL.startsWith("https://")) {
+    status.textContent = "A página ainda precisa da URL do receptor (Apps Script) antes de ser publicada.";
+    status.className = "status err";
+    return;
+  }
+  setSubmitting(true);
+  status.textContent = "Enviando respostas, aguarde...";
+  status.className = "status";
+
+  try {
+    const response = await fetch(ENDPOINT_URL, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(buildPayload())
+    });
+    const data = await response.json().catch(() => ({}));
+    if (response.ok && data.ok) {
+      status.textContent = "Briefing enviado com sucesso. Obrigado!";
+      status.className = "status ok";
+      localStorage.removeItem(STORAGE_KEY);
+      nextBtn.textContent = "Enviado";
+      nextBtn.disabled = true;
+    } else {
+      throw new Error(data.error || "Resposta inesperada do servidor.");
+    }
+  } catch (err) {
+    setSubmitting(false);
+    status.innerHTML = `Erro ao enviar: ${escapeHtml(String(err.message || err))}. <a href="#" id="retryLink" style="color:var(--accent-2)">Tentar novamente</a> ou use o botão <b>Baixar cópia JSON</b>.`;
+    status.className = "status err";
+    document.getElementById("retryLink")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      submitBriefing();
+    });
+  }
+}
+
+backBtn.addEventListener("click", () => {
+  if (state.step > 0) { state.step--; saveDraft(); render(); }
+});
+
+nextBtn.addEventListener("click", () => {
+  if (!validateCurrent()) return;
+  if (state.step < sections.length - 1) {
+    state.step++; saveDraft(); render();
+  } else {
+    submitBriefing();
+  }
+});
+
+loadDraft();
+render();
+</script>
+</body>
+</html>

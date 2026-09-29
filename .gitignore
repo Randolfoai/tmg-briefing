@@ -1,0 +1,28 @@
+# Dependências e caches
+node_modules/
+__pycache__/
+*.log
+*.tmp
+*.temp
+.cache/
+.vscode/
+.idea/
+
+# Dados e testes locais
+test-payload.json
+*-respostas.json
+*.csv
+*.xlsx
+
+# Backups e arquivos de sistema
+.DS_Store
+Thumbs.db
+*.bak
+*.old
+
+# Nunca subir respostas reais do briefing
+respostas/
+data/
+
+# Documentos internos de briefing não devem ficar no repositório público
+BRIEFING_INTELIGENTE*.md

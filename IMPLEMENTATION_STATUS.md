@@ -31,10 +31,17 @@
 - Tentativa inicial com `ContentService.setHeaders` falhou; corrigido removendo headers manuais e usando `text/plain` no frontend.
 - Redirecionamento padrão do Apps Script exigiu teste no navegador real; o `fetch` do navegador seguiu o redirect corretamente.
 
+## Sessão 29/09/2026 — Follow-up e fechamento de escopo
+- `followup.html` criado e publicado em `https://randolfoai.github.io/tmg-briefing/followup.html` — rodada complementar com as 7 respostas vagas + sugestões pré-preenchidas; envia para o mesmo endpoint/planilha marcado com `round:"followup"` no JSON.
+- Respostas do follow-up recebidas e confirmadas na planilha (21:45). Detalhes consolidados em `DISCOVERY_ESCOPO.md` (interno, gitignored).
+- **Decisão do cliente:** canal de secretaria/aprovação = **Telegram Bot** (R$0). WhatsApp Cloud API adiada para fase posterior; gateways não-oficiais descartados (risco de ban).
+- Estimativa Fase 1 entregue: 5–6 semanas (radar → draft IA → arte/legenda → aprovação Telegram → publicação).
+
 ## Pendências
-Nenhuma. O briefing está online e operacional.
+- Blueprint técnico da Fase 1 (arquitetura, stack, backlog semanal) — próxima sessão.
+- Questões em aberto não-bloqueantes: modelo de publicidade, orçamento de infra, meta numérica de seguidores/visitas.
 
 ## Próximos passos sugeridos
-- Enviar o link público ao cliente.
-- Monitorar a planilha para novas respostas.
-- Após coleta, analisar o JSON completo para alimentar a próxima fase de Discovery.
+- Gerar blueprint técnico da Fase 1 e backlog semanal.
+- Criar bot Telegram (BotFather) quando iniciar a semana 4 ou adiantar para testes.
+- Definir chave/plano de LLM para reescrita de matérias (custo ~R$50–150/mês).

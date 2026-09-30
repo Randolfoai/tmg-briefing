@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Perguntas complementares do briefing Tocantins Mil Graus." />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Complemento do Briefing — Tocantins Mil Graus</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --panel: #ffffff;
+      --ink: #111827;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --accent: #0f172a;
+      --accent-2: #2563eb;
+      --soft: #eef4ff;
+      --danger: #b42318;
+      --ok: #067647;
+      --shadow: 0 18px 50px rgba(15, 23, 42, .10);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(37,99,235,.10), transparent 28rem),
+        var(--bg);
+      line-height: 1.55;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    .shell { max-width: 1040px; margin: 0 auto; padding: 22px; }
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 18px; padding: 8px 2px 20px;
+    }
+    .brand { display: flex; gap: 12px; align-items: center; min-width: 0; }
+    .mark {
+      width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center;
+      background: var(--accent); color: white; font-weight: 800; letter-spacing: -.03em;
+      box-shadow: var(--shadow); flex: 0 0 auto;
+    }
+    .brand b { display: block; font-size: .98rem; }
+    .brand span { color: var(--muted); font-size: .82rem; }
+    .draft-state { color: var(--muted); font-size: .84rem; text-align: right; }
+    .hero, .card {
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(228,231,236,.9);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+    }
+    .hero { padding: 34px; margin-bottom: 18px; }
+    .eyebrow { color: var(--accent-2); font-weight: 750; font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; }
+    h1 { margin: 8px 0 12px; max-width: 760px; font-size: clamp(1.9rem, 6vw, 3rem); line-height: 1.05; letter-spacing: -.05em; }
+    .lead { max-width: 760px; color: var(--muted); font-size: 1.04rem; margin: 0; }
+    .notice {
+      margin-top: 22px; border: 1px solid #d9e4ff; background: #f6f8ff;
+      border-radius: 15px; padding: 14px 16px; color: #344054; font-size: .9rem;
+    }
+    .card { padding: 30px; }
+    .q { padding: 22px 0; border-top: 1px solid var(--line); }
+    .q:first-of-type { border-top: 0; padding-top: 0; }
+    .q label.title { display: block; font-weight: 720; margin-bottom: 8px; }
+    .hint { display: block; color: var(--muted); font-size: .86rem; margin: -2px 0 10px; }
+    textarea, input[type="text"], input[type="email"], select {
+      width: 100%; border: 1px solid #cfd6e3; border-radius: 13px;
+      background: #fff; color: var(--ink); padding: 13px 14px; outline: none;
+      transition: border .15s, box-shadow .15s;
+    }
+    textarea { min-height: 112px; resize: vertical; }
+    textarea:focus, input:focus, select:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+    }
+    .choices { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .choice {
+      display: flex; gap: 10px; align-items: flex-start; padding: 12px 13px;
+      border: 1px solid var(--line); border-radius: 13px; background: #fff;
+    }
+    .choice input { margin-top: 4px; accent-color: var(--accent-2); }
+    .nav {
+      display: flex; justify-content: flex-end; gap: 12px; margin-top: 18px;
+      position: sticky; bottom: 12px; z-index: 20;
+    }
+    .btn {
+      border: 0; border-radius: 14px; padding: 13px 18px; font-weight: 720;
+      box-shadow: 0 8px 20px rgba(15,23,42,.08);
+    }
+    .btn.primary { background: var(--accent); color: #fff; }
+    .btn.secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+    .btn.spinning { position: relative; color: transparent; }
+    .btn.spinning::after {
+      content: ""; position: absolute; left: 50%; top: 50%;
+      width: 18px; height: 18px; margin: -9px 0 0 -9px;
+      border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;
+      border-radius: 50%; animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .status { margin-top: 12px; min-height: 28px; font-size: .92rem; font-weight: 650; }
+    .status.ok { color: var(--ok); }
+    .status.err { color: var(--danger); }
+    .privacy {
+      color: var(--muted); font-size: .82rem; text-align: center;
+      padding: 12px 4px 0;
+    }
+    .footer { color: var(--muted); font-size: .78rem; padding: 22px 4px 50px; text-align: center; }
+    .hidden { display: none !important; }
+    textarea:focus-visible, input:focus-visible, select:focus-visible, .choice:focus-within {
+      outline: 2px solid var(--accent-2); outline-offset: 2px;
+    }
+    @media (max-width: 720px) {
+      .shell { padding: 12px; }
+      .hero, .card { border-radius: 18px; }
+      .hero { padding: 24px 20px; }
+      .card { padding: 22px 18px; }
+      .topbar { align-items: flex-start; }
+      .draft-state { max-width: 145px; }
+      .nav { bottom: 8px; }
+      .btn { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="topbar">
+      <div class="brand">
+        <div class="mark">TMG</div>
+        <div><b>Tocantins Mil Graus</b><span>Complemento do briefing</span></div>
+      </div>
+      <div class="draft-state" id="draftState">Rascunho salvo automaticamente</div>
+    </div>
+
+    <section class="hero">
+      <div class="eyebrow">Rodada complementar</div>
+      <h1>Só mais algumas respostas para fechar o escopo.</h1>
+      <p class="lead">
+        Preenchemos cada campo com uma sugestão baseada na sua primeira resposta.
+        Você pode confirmar, corrigir ou apagar e escrever do zero.
+      </p>
+      <div class="notice">
+        <strong>Como funciona:</strong> edite apenas o que discordar. Ao final, clique em
+        <b>Enviar respostas</b>. As respostas entram na mesma planilha do briefing original.
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="q">
+        <label class="title" for="f_nome">Seu nome (para ligar com a resposta anterior)</label>
+        <input type="text" id="f_nome" data-qid="nome" value="Jefferson" required />
+      </div>
+
+      <div class="q">
+        <label class="title" for="f_fluxo">1. Como uma notícia nasce hoje? <span class="small">(revise o fluxo sugerido)</span></label>
+        <span class="hint">Da descoberta do fato até a publicação — escreva como acontece de verdade.</span>
+        <textarea id="f_fluxo" data-qid="fluxo">Acompanho G1 Tocantins, Bacci Notícias e Gov.br → identifico o fato → escrevo a matéria → faço a arte da matéria → publico no site → compartilho no Facebook e TikTok.</textarea>
+      </div>
+
+      <div class="q">
+        <label class="title" for="f_ritmo">1b. Quanto tempo leva hoje do fato até a publicação? E quantas matérias por dia?</label>
+        <textarea id="f_ritmo" data-qid="ritmo" placeholder="Ex.: cerca de 1–2 horas por matéria; publico em média 3 matérias por dia."></textarea>
+      </div>
+
+      <div class="q">
+        <label class="title" for="f_palavras">2. Quais nomes, cidades e temas devemos monitorar automaticamente? <span class="small">(risque o que não servir, acrescente o que faltou)</span></label>
+        <textarea id="f_palavras" data-qid="palavras">Palmas, Gurupi, Araguaína, Porto Nacional, Paraíso do Tocantins, Governador, prefeituras, Assembleia Legislativa, PM-TO, acidente BR-153, BR-010, Governo do Tocantins.</textarea>
+      </div>
+
+      <div class="q">
+        <label class="title" for="f_editorias">3. Quais editorias/seções o site deve ter? <span class="small">(sugestão enxuta: confirme ou ajuste)</span></label>
+        <textarea id="f_editorias" data-qid="editorias">Cidades, Polícia, Política, Esporte, Serviço/Utilidade, Agenda, Brasil.</textarea>
+      </div>
+
+      <div class="q">
+        <label class="title" for="f_sitenao">4. O que o novo site NÃO deve ser ou ter?</label>
+        <textarea id="f_sitenao" data-qid="site_nao">Sem excesso de banners e pop-ups, sem poluição visual, sem site lento, sem cadastro obrigatório para ler.</textarea>
+      </div>
+
+      <div class="q">
+        <label class="title" for="f_metricas">5. Quais números realmente importam para você?</label>
+        <span class="hint">Escolha, ajuste ou acrescente os seus.</span>
+        <textarea id="f_metricas" data-qid="metricas">Visitas/mês no site, matérias publicadas por dia, visualizações no Facebook e TikTok, cliques das redes para o site.</textarea>
+      </div>
+
+      <div class="q">
+        <label class="title">6. Qual função seria "uau" pra você? <span class="small">(marque a favorita)</span></label>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="impressionante" value="Alerta de breaking news no WhatsApp antes da concorrência, com draft já pronto" /> <span><b>a)</b> Alerta de breaking news no WhatsApp antes da concorrência, com o draft da matéria já pronto.</span></label>
+          <label class="choice"><input type="radio" name="impressionante" value="Radar que encontra a matéria e já entrega pronta com arte e legenda para aprovar" /> <span><b>b)</b> Radar que encontra a matéria e já entrega pronta com arte + legenda, só para aprovar.</span></label>
+          <label class="choice"><input type="radio" name="impressionante" value="Roteiro de Reel gerado automaticamente a partir da matéria" /> <span><b>c)</b> Roteiro de Reel gerado automaticamente a partir da matéria.</span></label>
+        </div>
+        <textarea id="f_impressionante_outro" data-qid="impressionante_outro" style="margin-top:10px; min-height:70px" placeholder="Ou descreva aqui a sua própria ideia 'uau' (opcional)."></textarea>
+      </div>
+
+      <div class="q">
+        <label class="title" for="f_sucesso">7. O que faria o projeto ser um sucesso em 6 meses? <span class="small">(transforme em números, se puder)</span></label>
+        <textarea id="f_sucesso" data-qid="sucesso">Publicar 5+ matérias por dia sem atraso, reduzir de horas para minutos o tempo do fato à publicação e conquistar o primeiro anunciante.</textarea>
+      </div>
+
+      <div class="q">
+        <label class="title" for="f_extra">Algo mais que queira acrescentar? <span class="small">(opcional)</span></label>
+        <textarea id="f_extra" data-qid="observacoes" placeholder="Qualquer detalhe, ideia ou preocupação."></textarea>
+      </div>
+
+      <div class="nav">
+        <button class="btn primary" id="sendBtn" type="button">Enviar respostas</button>
+      </div>
+      <div class="status" id="status"></div>
+    </section>
+
+    <div class="privacy">Respostas usadas exclusivamente para planejamento e desenvolvimento do projeto Tocantins Mil Graus.</div>
+    <div class="footer">Briefing do projeto Tocantins Mil Graus — rodada complementar</div>
+  </main>
+
+<script>
+const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbwhiebFWbuKJ0ryWqxfFcg3umv4cJkBU94RaWDTVjSbijLlbgS1GK-Z3BLYM-1Ru4ih0Q/exec";
+const STORAGE_KEY = "tmg-briefing-followup-v1";
+let isSubmitting = false;
+
+const sendBtn = document.getElementById("sendBtn");
+const statusEl = document.getElementById("status");
+const draftEl = document.getElementById("draftState");
+
+function fields() {
+  return Array.from(document.querySelectorAll("[data-qid]"));
+}
+
+function collectAnswers() {
+  const answers = {};
+  fields().forEach(el => { answers[el.dataset.qid] = el.value.trim(); });
+  const picked = document.querySelector('input[name="impressionante"]:checked');
+  answers.impressionante = picked ? picked.value : "";
+  const outro = (document.getElementById("f_impressionante_outro").value || "").trim();
+  if (outro) answers.impressionante = (answers.impressionante ? answers.impressionante + " | " : "") + outro;
+  delete answers.impressionante_outro;
+  return answers;
+}
+
+function buildPayload() {
+  return {
+    formVersion: "1.0",
+    project: "Tocantins Mil Graus",
+    round: "followup",
+    startedAt: state.startedAt,
+    submittedAt: new Date().toISOString(),
+    userAgent: navigator.userAgent,
+    answers: collectAnswers()
+  };
+}
+
+function saveDraft() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ answers: collectAnswers(), radio: (document.querySelector('input[name="impressionante"]:checked') || {}).value || "" }));
+    draftEl.textContent = "Rascunho salvo automaticamente";
+  } catch (e) { }
+}
+
+function loadDraft() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const draft = JSON.parse(raw);
+    fields().forEach(el => {
+      const v = draft.answers && draft.answers[el.dataset.qid];
+      if (typeof v === "string" && v !== "") el.value = v;
+    });
+    if (draft.radio) {
+      document.querySelectorAll('input[name="impressionante"]').forEach(r => { r.checked = (r.value === draft.radio); });
+    }
+  } catch (e) { }
+}
+
+function escapeHtml(str) {
+  return str.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function setSubmitting(value) {
+  isSubmitting = value;
+  sendBtn.disabled = value;
+  sendBtn.classList.toggle("spinning", value);
+  sendBtn.textContent = value ? "Enviando..." : "Enviar respostas";
+}
+
+async function submitFollowup() {
+  if (isSubmitting) return;
+  if (!collectAnswers().nome) {
+    statusEl.textContent = "Confirme seu nome antes de enviar.";
+    statusEl.className = "status err";
+    return;
+  }
+  setSubmitting(true);
+  statusEl.textContent = "Enviando respostas, aguarde...";
+  statusEl.className = "status";
+  try {
+    const response = await fetch(ENDPOINT_URL, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(buildPayload())
+    });
+    const data = await response.json().catch(() => ({}));
+    if (response.ok && data.ok) {
+      statusEl.textContent = "Respostas enviadas com sucesso. Obrigado!";
+      statusEl.className = "status ok";
+      localStorage.removeItem(STORAGE_KEY);
+      sendBtn.textContent = "Enviado";
+      sendBtn.disabled = true;
+    } else {
+      throw new Error(data.error || "Resposta inesperada do servidor.");
+    }
+  } catch (err) {
+    setSubmitting(false);
+    statusEl.innerHTML = `Erro ao enviar: ${escapeHtml(String(err.message || err))}. <a href="#" id="retryLink" style="color:var(--accent-2)">Tentar novamente</a>.`;
+    statusEl.className = "status err";
+    document.getElementById("retryLink")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      submitFollowup();
+    });
+  }
+}
+
+const state = { startedAt: new Date().toISOString() };
+fields().forEach(el => el.addEventListener("input", saveDraft));
+document.querySelectorAll('input[name="impressionante"]').forEach(r => r.addEventListener("change", saveDraft));
+sendBtn.addEventListener("click", submitFollowup);
+loadDraft();
+</script>
+</body>
+</html>

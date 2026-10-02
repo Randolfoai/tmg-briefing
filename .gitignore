@@ -27,3 +27,5 @@ data/
 # Documentos internos de briefing não devem ficar no repositório público
 BRIEFING_INTELIGENTE*.md
 DISCOVERY*.md
+BLUEPRINT*.md
+SESSAO*.md

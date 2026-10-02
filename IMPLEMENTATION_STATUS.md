@@ -37,11 +37,16 @@
 - **Decisão do cliente:** canal de secretaria/aprovação = **Telegram Bot** (R$0). WhatsApp Cloud API adiada para fase posterior; gateways não-oficiais descartados (risco de ban).
 - Estimativa Fase 1 entregue: 5–6 semanas (radar → draft IA → arte/legenda → aprovação Telegram → publicação).
 
+## Sessão 01/10/2026 — Blueprint Fase 1
+- `BLUEPRINT_FASE1.md` criado (interno, gitignored): arquitetura Next.js + Supabase + n8n/VPS + R2 + Telegram, modelo de dados, engenharia anti-estouro, backlog de 6 semanas.
+- Deliberação de custos: fixo mínimo ~R$30/mês (VPS + domínio); Oracle Free Tier mantido como alternativa R$0 com risco gerenciado.
+
 ## Pendências
-- Blueprint técnico da Fase 1 (arquitetura, stack, backlog semanal) — próxima sessão.
+- Decisão: Oracle Free (R$0) vs Hetzner (~R$28/mês).
+- Decisão: domínio final do portal.
 - Questões em aberto não-bloqueantes: modelo de publicidade, orçamento de infra, meta numérica de seguidores/visitas.
 
 ## Próximos passos sugeridos
-- Gerar blueprint técnico da Fase 1 e backlog semanal.
+- Semana 1 do blueprint: repo Next.js, schema Supabase, VPS/Docker, abrir apps Meta/TikTok developers (bloqueio externo).
 - Criar bot Telegram (BotFather) quando iniciar a semana 4 ou adiantar para testes.
-- Definir chave/plano de LLM para reescrita de matérias (custo ~R$50–150/mês).
+- Definir chave/plano de LLM para reescrita de matérias (Gemini free tier cobre o início).
